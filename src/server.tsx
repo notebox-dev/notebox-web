@@ -2,6 +2,7 @@ import React from 'react'
 import { StaticRouter } from 'react-router-dom'
 import express from 'express'
 import { renderToString } from 'react-dom/server'
+import { ServerStyleSheet } from 'styled-components'
 
 import App from './App'
 
@@ -13,11 +14,17 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
     const context: { url?: string } = {}
+    const sheet = new ServerStyleSheet()
     const markup = renderToString(
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>,
+      sheet.collectStyles(
+        <StaticRouter context={context} location={req.url}>
+          <App />
+        </StaticRouter>,
+      ),
     )
+    const styleTags = sheet.getStyleTags()
+    // TODO: Call seal for finnaly.
+    sheet.seal();
 
     if (context.url) {
       res.redirect(context.url)
@@ -30,6 +37,7 @@ server
         <meta charset="utf-8" />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        ${styleTags}
         ${assets.client.css ? `<link rel="stylesheet" href="${assets.client.css}">` : ''}
         ${
           process.env.NODE_ENV === 'production'
