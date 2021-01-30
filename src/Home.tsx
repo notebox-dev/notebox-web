@@ -1,86 +1,41 @@
-import React, { MouseEvent, useEffect, useRef, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { usePopper } from 'react-popper'
+import { Editor, RichUtils, EditorState, convertFromRaw } from 'draft-js'
+import { ClientOnly } from './ui/client-only'
 
 export const HomePage = () => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const onCreateBlock = (event: MouseEvent<HTMLDivElement>) => {
-    if (event.target !== containerRef.current) return
-    setBlock((prevBlocks) => {
-      return [...prevBlocks, { id: Date.now(), content: null }]
-    })
-  }
-
-  const onContextMenu = (event) => {
-    event.preventDefault()
-    const selection = window.getSelection()
-    if (!selection || selection.anchorOffset === selection.focusOffset) {
-      return
-    }
-
-    const getBoundingClientRect = () => selection.getRangeAt(0).getBoundingClientRect()
-
-    setVirtual({
-      clientWidth: getBoundingClientRect().width,
-      clientHeight: getBoundingClientRect().height,
-      getBoundingClientRect,
-    })
-
-    setVisible(true)
-  }
-
-  const [blocks, setBlock] = useState([])
-  const [isVisible, setVisible] = useState(false)
-
-  const [popperElement, setPopperElement] = React.useState(null)
-  const [virtual, setVirtual] = useState(null)
-  const { styles, attributes } = usePopper(virtual, popperElement)
-
-  useEffect(() => {
-    const onDocClick = (event: MouseEvent) => {
-      if (event.target !== popperElement) {
-        setVisible(false)
-      }
-    }
-    const onDocKeydown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setVisible(false)
-      }
-    }
-    document.addEventListener('click', onDocClick as any)
-    document.addEventListener('keydown', onDocKeydown as any)
-  }, [])
+  const [editorState, setEditorState] = React.useState(() => EditorState.createEmpty())
 
   return (
-    <>
-      <Container ref={containerRef} onClick={onCreateBlock}>
-        x
-        {blocks.map((block) => (
-          <Block key={block.id} onContextMenu={onContextMenu}></Block>
-        ))}
-      </Container>
-      {isVisible && (
-        <Popover ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-          Popper element
-        </Popover>
-      )}
-    </>
+    <Container>
+      <Content>
+        <button
+          onClick={() => {
+            setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
+          }}
+        >
+          h1
+        </button>
+        <ClientOnly>
+          <Editor editorState={editorState} onChange={setEditorState} />
+        </ClientOnly>
+      </Content>
+    </Container>
   )
 }
 
 const Container = styled.div`
-  background-color: #ffc;
-  height: 100vh;
-`
-
-const Block = styled.div.attrs(() => ({ contentEditable: true }))`
-  min-height: 32px;
-  width: 300px;
-  background-color: #f0c;
-`
-
-const Popover = styled.div`
   background-color: #fff;
-  border-radius: 4px;
-  padding: 8px;
+  color: #1a1b1f;
+  height: 100vh;
+  display: grid;
+  grid-template: 'sidebar content';
+  grid-template-columns: 240px 1fr;
+  box-sizing: border-box;
+`
+
+const Content = styled.div`
+  border-left: 1px solid #1a1b1f;
+  grid-area: content;
+  padding: 32px 24px;
 `
