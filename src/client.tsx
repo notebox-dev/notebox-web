@@ -6,6 +6,7 @@ import { history } from './lib/history'
 import { Application } from './application'
 
 hydrate(
+  // @ts-expect-error
   <Router history={history}>
     <Application />
   </Router>,
