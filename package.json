@@ -15,6 +15,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-popper": "2.2.4",
+    "react-router-config": "5.1.1",
     "react-router-dom": "5.2.0",
     "styled-components": "5.2.1"
   },
@@ -24,6 +25,7 @@
     "@types/jest": "26.0.20",
     "@types/react": "17.0.0",
     "@types/react-dom": "17.0.0",
+    "@types/react-router-config": "5.0.2",
     "@types/styled-components": "5.1.7",
     "@types/webpack-env": "1.16.0",
     "razzle": "3.3.11"
