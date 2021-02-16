@@ -4,7 +4,7 @@ import express from 'express'
 import { renderToString } from 'react-dom/server'
 import { ServerStyleSheet } from 'styled-components'
 
-import App from './App'
+import { Application } from './Application'
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST)
 
@@ -18,13 +18,13 @@ server
     const markup = renderToString(
       sheet.collectStyles(
         <StaticRouter context={context} location={req.url}>
-          <App />
+          <Application />
         </StaticRouter>,
       ),
     )
     const styleTags = sheet.getStyleTags()
     // TODO: Call seal for finnaly.
-    sheet.seal();
+    sheet.seal()
 
     if (context.url) {
       res.redirect(context.url)
