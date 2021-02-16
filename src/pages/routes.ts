@@ -2,7 +2,9 @@ import { RouteConfig } from 'react-router-config'
 
 import { HomePage } from './home/page'
 import { LoginPage } from './login/page'
+import { NotFoundPage } from './not-found/page'
 
+// TODO: Make lazy all routes.
 export const routes: RouteConfig[] = [
   {
     path: '/',
@@ -13,5 +15,9 @@ export const routes: RouteConfig[] = [
     path: '/login',
     exact: true,
     component: LoginPage,
+  },
+  {
+    path: '*',
+    component: NotFoundPage,
   },
 ]
