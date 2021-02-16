@@ -1,9 +1,10 @@
 import React, { FC } from 'react'
+import { useGate } from 'effector-react'
 
-export const HomePage: FC = () => {
-  return (
-    <div>
-      Home page
-    </div>
-  )
+import { HomeGate } from './model'
+
+export const HomePage: FC = (props) => {
+  useGate(HomeGate, props)
+
+  return <div>Home page</div>
 }
