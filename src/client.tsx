@@ -1,13 +1,15 @@
-import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
+import { Router } from 'react-router'
 import { hydrate } from 'react-dom'
 
+import { history } from './lib/history'
 import { Application } from './application'
 
 hydrate(
-  <BrowserRouter>
+  // @ts-expect-error
+  <Router history={history}>
     <Application />
-  </BrowserRouter>,
+  </Router>,
   document.getElementById('root'),
 )
 

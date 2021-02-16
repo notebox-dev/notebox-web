@@ -1,10 +1,10 @@
 import React from 'react'
-import { StaticRouter } from 'react-router-dom'
 import express from 'express'
+import { StaticRouter } from 'react-router'
 import { renderToString } from 'react-dom/server'
 import { ServerStyleSheet } from 'styled-components'
 
-import { Application } from './Application'
+import { Application } from './application'
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST)
 
