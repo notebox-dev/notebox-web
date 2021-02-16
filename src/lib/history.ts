@@ -1,3 +1,5 @@
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory } from 'history'
 
-export const history = createBrowserHistory()
+import { isClientEnv } from 'lib/env'
+
+export const history = isClientEnv ? createBrowserHistory() : null
