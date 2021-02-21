@@ -1,1 +1,2 @@
-export { sessionLoad, sessionSaveFx, checkIsAuthenticated, checkIsNotAuthenticated } from './model'
+export { sessionLoad, sessionSaveFx } from './model'
+export { checkIsAuthenticated, checkIsNotAuthenticated } from './guards'
