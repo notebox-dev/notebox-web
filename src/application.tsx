@@ -1,9 +1,12 @@
 import React, { FC } from 'react'
+import { SSRProvider } from 'react-aria'
 
 import { Pages } from './pages'
 
 export const Application: FC = () => (
   <>
-    <Pages />
+    <SSRProvider>
+      <Pages />
+    </SSRProvider>
   </>
 )
